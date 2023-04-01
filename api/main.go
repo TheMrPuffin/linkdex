@@ -5,9 +5,8 @@ import (
 )
 
 func main() {
-	r := gin.Default()
+	// Create router with default middleware
+	router := gin.Default()
 
-	// Define your API routes and handlers here
-
-	r.Run() // Start the HTTP server
+	router.Run() // Start the HTTP server
 }
