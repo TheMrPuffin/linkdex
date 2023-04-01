@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/TheMrPuffin/linkdex/configs"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,6 +11,8 @@ import (
 func main() {
 	// Create router with default middleware
 	router := gin.Default()
+
+	configs.ConnectDb()
 
 	router.GET("/ping", ping)
 
