@@ -36,3 +36,10 @@ func ConnectDb() *mongo.Client {
 
 // Client instance
 var DB *mongo.Client = ConnectDb()
+
+// Get links collection
+func GetLinksCollection(client *mongo.Client) *mongo.Collection {
+	collection := client.Database("linkdex").Collection("links")
+
+	return collection
+}
