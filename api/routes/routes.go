@@ -8,4 +8,5 @@ import (
 func LinkRoute(router *gin.Engine) {
 	router.GET("/ping", controllers.Ping)
 	router.GET("/links", controllers.GetAllLinks())
+	router.POST("/link", controllers.CreateLink())
 }
