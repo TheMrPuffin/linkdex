@@ -54,6 +54,24 @@ func GetAllLinks() gin.HandlerFunc {
 	}
 }
 
+func GetLinkByName() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		linkName := c.Param("linkName")
+		var link models.Link
+		defer cancel()
+
+		err := linkCollection.FindOne(ctx, bson.M{"name": linkName}).Decode(&link)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.LinkResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+
+		c.JSON(http.StatusOK, responses.LinkResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": link}})
+	}
+}
+
 func CreateLink() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
