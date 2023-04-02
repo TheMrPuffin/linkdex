@@ -10,4 +10,5 @@ func LinkRoute(router *gin.Engine) {
 	router.GET("/links", controllers.GetAllLinks())
 	router.GET("/link/:linkName", controllers.GetLinkByName())
 	router.POST("/link", controllers.CreateLink())
+	router.DELETE("/link/:linkName", controllers.DeleteLink())
 }

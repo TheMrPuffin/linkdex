@@ -90,19 +90,43 @@ func CreateLink() gin.HandlerFunc {
 			return
 		}
 
-		newUser := models.Link{
-			//	Id:       primitive.NewObjectID(),
+		newLink := models.Link{
 			Name: link.Name,
 			Url:  link.Url,
-			//Title:    user.,
 		}
 
-		result, err := linkCollection.InsertOne(ctx, newUser)
+		result, err := linkCollection.InsertOne(ctx, newLink)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.LinkResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
 		}
 
 		c.JSON(http.StatusCreated, responses.LinkResponse{Status: http.StatusCreated, Message: "success", Data: map[string]interface{}{"data": result}})
+	}
+}
+
+func DeleteLink() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		linkName := c.Param("linkName")
+		defer cancel()
+
+		result, err := linkCollection.DeleteOne(ctx, bson.M{"name": linkName})
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.LinkResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+
+		if result.DeletedCount < 1 {
+			c.JSON(http.StatusNotFound,
+				responses.LinkResponse{Status: http.StatusNotFound, Message: "error", Data: map[string]interface{}{"data": "Link with specified name not found!"}},
+			)
+			return
+		}
+
+		c.JSON(http.StatusOK,
+			responses.LinkResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": "Link successfully deleted!"}},
+		)
 	}
 }
