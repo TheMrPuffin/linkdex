@@ -49,7 +49,7 @@ func GetAllLinks() gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusOK,
-			responses.LinkResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": links}},
+			responses.LinkResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"links": links}},
 		)
 	}
 }
@@ -68,7 +68,7 @@ func GetLinkByName() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, responses.LinkResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": link}})
+		c.JSON(http.StatusOK, responses.LinkResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"link": link}})
 	}
 }
 
