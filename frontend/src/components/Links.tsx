@@ -1,3 +1,5 @@
+import { Divider, Link } from "@mui/material";
+import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 
 function Links(){
@@ -8,8 +10,7 @@ function Links(){
             .then((data) => {
                 let linkObject = data.data.links
                 const linksArray = linkObject.map((link: any) => 
-                    <li key={link.Id}> {link.name}</li>);
-                
+                    <Link key={link.Id} href={link.url}>{link.name}</Link>);
                 console.debug(linksArray);
                 
                 setLinks(linksArray)
@@ -19,7 +20,8 @@ function Links(){
     const [links, setLinks] = useState([]);
     useEffect(() => {loadLinks(); }, []);
 
-    return <ul>{links}</ul>;
+    return <Stack sx={{ textAlign: 'center', color: 'primary.main'}} direction="column" divider={<Divider orientation="horizontal" flexItem />}
+    spacing={2}>{links}</Stack>;
 }
 
 export default Links;
